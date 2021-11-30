@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 let app = (0, express_1.default)();
-app.get('/', (req, res) => {
+app.use(express_1.default.json());
+app.post('/passwords', (req, res) => {
     res.json("Hello World!");
 });
 dotenv_1.default.config({ path: './.env' });
