@@ -32,7 +32,9 @@ app.post('/passwords', (req, res) => {
   }
 
   // eslint-disable-next-line no-unused-expressions
-  errorDto.errors.length > 0 ? res.status(400).json(errorDto.errors) : res.status(204).json();
+  errorDto.errors.length > 0
+    ? res.status(400).json(errorDto.errors)
+    : res.status(204).json();
 });
 
 dotenv.config({ path: './.env' });
