@@ -1,3 +1,5 @@
-export class PasswordErrorsDTO {
-    'errors': string[];
+class PasswordErrorsDTO {
+  'errors': string[];
 }
+
+export { PasswordErrorsDTO };

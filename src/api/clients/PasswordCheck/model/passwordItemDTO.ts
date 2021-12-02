@@ -1,3 +1,5 @@
-export class PasswordItemDTO {
-    'password': string;
+class PasswordItemDTO {
+  'password': string;
 }
+
+export { PasswordItemDTO };
