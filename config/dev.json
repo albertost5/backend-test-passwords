@@ -1,0 +1,25 @@
+{
+    "name": "development",
+    "regex": [
+        {
+            "name": "length",
+            "pattern": "(?=.{5,}$)",
+            "message": "The password length is minimum five characters."
+        },
+        {
+            "name": "numeric",
+            "pattern": "[0-9]",
+            "message": "The password doesn't contain at least one digit."
+        },
+        {
+            "name": "notRepeatedTwice",
+            "pattern": "([a-zA-Z0-9]|[^a-zA-Z0-9])\\1{2,}",
+            "message": "There are more than two repeating consecutive characters."
+        },
+        {
+            "name": "upperCaseSpecialChar",
+            "pattern": "[A-Z]|[^A-Za-z0-9]",
+            "message": "The password doesn't contain at least one upper-case character OR one special character."
+        }
+    ]
+}
