@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { PasswordItemDTO } from './api/clients/PasswordCheck/model/passwordItemDTO';
 import { PasswordErrorsDTO } from './api/clients/PasswordCheck/model/passwordErrorsDTO';
+import { Rule } from './models/rule';
 
 const config = require('config');
 
@@ -16,25 +17,23 @@ app.post('/passwords', (req, res) => {
   const errorDto = new PasswordErrorsDTO();
   errorDto.errors = [];
 
-  const arrayRegEx = config.get('regex');
+  const rule = new Rule();
+  rule.rules = config.get('regex');
 
-  // eslint-disable-next-line no-restricted-syntax
-  for (const element of arrayRegEx) {
-    const regExObject = new RegExp(element.pattern);
+  rule.rules.forEach((e) => {
+    const regExObject = new RegExp(e.pattern);
 
-    if (element.name !== config.get('regex.2.name')) {
+    if (e.name !== config.get('regex.2.name')) {
       if (!regExObject.test(passwordItem.password)) {
-        errorDto.errors.push(element.message);
+        errorDto.errors.push(e.message);
       }
     } else if (regExObject.test(passwordItem.password)) {
-      errorDto.errors.push(element.message);
+      errorDto.errors.push(e.message);
     }
-  }
+  });
 
   // eslint-disable-next-line no-unused-expressions
-  errorDto.errors.length > 0
-    ? res.status(400).json(errorDto.errors)
-    : res.status(204).json();
+  errorDto.errors.length > 0 ? res.status(400).json(errorDto.errors) : res.status(204).json();
 });
 
 dotenv.config({ path: './.env' });
