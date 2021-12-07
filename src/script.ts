@@ -32,14 +32,18 @@ connection.query('SELECT password from passwords', (err, rows) => {
   };
 
   arrPasswords.forEach((element) => {
-    postCheckPassword(postOptions, element);
+    postCheckPassword(postOptions, element, connection);
   });
 });
 
-connection.end();
+// connection.end();
 
 // FUNCTIONS
-function postCheckPassword(options: RequestOptions, passwordToCheck: string) {
+function postCheckPassword(
+  options: RequestOptions,
+  passwordToCheck: string,
+  conn: mysql.Connection,
+) {
   const body = JSON.stringify({
     password: passwordToCheck,
   });
@@ -52,13 +56,18 @@ function postCheckPassword(options: RequestOptions, passwordToCheck: string) {
     });
 
     res.on('end', () => {
-      if (res.statusCode === 204) {
-        console.log(`Status code: ${res.statusCode}. Password validated: ${passwordToCheck}`);
-      } else if (res.statusCode === 400) {
-        console.log(
-          `Status code: ${res.statusCode}. Password not validated: ${passwordToCheck}. Errors: ${data}`,
-        );
+      let updateValidValue = `UPDATE passwords SET valid = 1 WHERE password = "${passwordToCheck}"`;
+      let message = `Status code: ${res.statusCode}. \n Password validated: ${passwordToCheck}. \n Changed valid value to 0.`;
+
+      if (res.statusCode === 400) {
+        updateValidValue = `UPDATE passwords SET valid = 0 WHERE password = "${passwordToCheck}"`;
+        message = `Status code: ${res.statusCode}. \n Password not validated: ${passwordToCheck}. \n Errors: ${data} \n Changed valid value to 0.`;
       }
+
+      conn.query(updateValidValue, (err, result) => {
+        if (err) throw err;
+        console.log(message);
+      });
     });
   });
 
