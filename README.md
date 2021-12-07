@@ -9,8 +9,8 @@ _Project to validate passwords and check if they are compromised or not._
 3. Set the .env file in the root of the project with the the configuration needed (PORT, PORT_COMPROMISED, HOST, DB_HOST, DB_USER, DB_PASSWORD and DATABASE).
 4. Download and run the docker image.
    - Pull the image using docker desktop for instance.
-   - Execute, docker run -p 5000:5000 --rm -d --name customName imageName
-   - Once finished we can remove the container: docker container rm -f id/customName
+   - Execute, docker run -p 5000:5000 --rm -d --name customName imageName, to run the API and put it in the port that is given.
+   - Once we finish testing the project we can remove the container running: docker container rm -f id/customName
 5. Once that we configured and set up the project, we can start using the npm scripts defined.
 
 - serve, run the project in the port specified (by default 3000).
