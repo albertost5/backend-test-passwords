@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import express from 'express';
 import dotenv from 'dotenv';
 import { router as pw } from './api/routes/passwords';
