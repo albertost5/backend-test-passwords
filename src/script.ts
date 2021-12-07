@@ -23,7 +23,7 @@ connection.query('SELECT password from passwords', (err, rows) => {
   }
 
   const postOptions: RequestOptions = {
-    hostname: process.env.DB_HOST,
+    hostname: process.env.HOST,
     port: process.env.PORT,
     method: 'POST',
     headers: {
@@ -35,6 +35,28 @@ connection.query('SELECT password from passwords', (err, rows) => {
   arrPasswords.forEach((element) => {
     postCheckPassword(postOptions, element, connection);
   });
+});
+
+connection.query('SELECT password from passwords WHERE valid = 1', (err, rows) => {
+  if (err) throw err;
+  console.log('valid 1, length: ', rows.length);
+  for (let i = 0; i < rows.length; i++) {
+    http.get(
+      {
+        hostname: process.env.HOST,
+        port: process.env.PORT_COMPROMISED,
+        path: `/compromised?password=${rows[i].password}`,
+        agent: false, // Create a new agent just for this one request
+      },
+      (res) => {
+        if (res.statusCode === 204) {
+          console.log(`The password ${rows[i].password} is not compromised.`);
+        } else {
+          console.log(`The password ${rows[i].password} is compromised.`);
+        }
+      },
+    );
+  }
 });
 
 // connection.end();
@@ -58,9 +80,9 @@ function postCheckPassword(
 
     res.on('end', () => {
       let updateValidValue = `UPDATE passwords SET valid = 1 WHERE password = "${passwordToCheck}"`;
-      let message = `Status code: ${res.statusCode}. \n Password validated: ${passwordToCheck}. \n Changed valid value to 0.`;
+      let message = `Status code: ${res.statusCode}. \n Password validated: ${passwordToCheck}. \n Changed valid value to 1.`;
 
-      if (res.statusCode === 400) {
+      if (res.statusCode !== 204) {
         updateValidValue = `UPDATE passwords SET valid = 0 WHERE password = "${passwordToCheck}"`;
         message = `Status code: ${res.statusCode}. \n Password not validated: ${passwordToCheck}. \n Errors: ${data} \n Changed valid value to 0.`;
       }

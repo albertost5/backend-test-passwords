@@ -7,7 +7,7 @@
     "serve": "npm run build && npm run start",
     "build": "rimraf ./dist && tsc --build tsconfig.json && npm run copy:all",
     "start": "cross-env NODE_ENV=dev NODE_CONFIG_DIR='./config' node dist/server.js",
-    "start-script": "node dist/script.js",
+    "script": "node dist/script.js",
     "copy:all": "npm run copy:config",
     "copy:config": "cpx \"config/**/*.*\" dist/config",
     "test": "echo \"Error: no test specified\" && exit 1",
