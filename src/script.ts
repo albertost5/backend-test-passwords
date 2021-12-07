@@ -15,8 +15,9 @@ const connection = mysql.createConnection({
 
 connection.query('SELECT password from passwords', (err, rows) => {
   if (err) throw err;
+
   const arrPasswords: string[] = [];
-  // let objectsql;
+
   for (let i = 0; i < rows.length; i++) {
     arrPasswords.push(rows[i].password);
   }
