@@ -19,6 +19,6 @@ _Project to validate passwords and check if they are compromised or not._
 - copy:all | copy:config , copy the config folder to dist/config.
 - lint, execute the linter (ESLint) and the code formatter (Prettier).
 - lint-fix, try to fix automatically some errors flagged.
-- script, execute the escript.
+- script, execute the script.
 
 To test the project is recommendable to run the linter's script if there are something flagged at the start and then run => npm run serve (API running) => npm run script
