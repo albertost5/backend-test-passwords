@@ -1,7 +1,7 @@
 {
   "name": "backend-test-passwords",
   "version": "1.0.0",
-  "description": "backen-test-passwords for a German company.",
+  "description": "backen-test-passwords.",
   "main": "index.js",
   "scripts": {
     "serve": "npm run build && npm run start",
